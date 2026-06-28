@@ -3,7 +3,7 @@ mongoose.set('strictQuery', false)
 
 const connectDB = async()=>{
     try{
-        await mongoose.connect('mongodb+srv://pmms:Az147415@cluster0.32lby.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+        await mongoose.connect(process.env.MONGODB_URI)
         console.log('Connected');
     }catch(error){
         console.error(error)
