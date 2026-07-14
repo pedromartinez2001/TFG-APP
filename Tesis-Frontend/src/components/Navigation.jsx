@@ -31,11 +31,10 @@ const Navigation = () => {
 
   return (
     <Navbar
-      bg="light"
-      data-bs-theme="light"
       collapseOnSelect
       expand="md"
       className="p-2 p-sm-3 navbar-modern"
+      style={{ backgroundColor: "var(--card)" }}
     >
       <Navbar.Brand className="navbar-brand-modern" as={Link} to="/">
         Gestión de Finanzas
