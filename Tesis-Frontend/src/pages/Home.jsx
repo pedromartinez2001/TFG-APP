@@ -4,7 +4,7 @@ import Image from "react-bootstrap/Image";
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import alcanciaCerdito from "../images/alcancia_cerdito.png";
+import personaIcono from "../images/persona-icono.jpg";
 import grafico from "../images/grafico.png";
 
 const herramientas = [
@@ -66,7 +66,7 @@ const Home = () => {
         <Row className="align-items-center g-4">
           <Col md="6">
             <div className="image-container home-hero-image" data-aos="fade-up">
-              <Image src={alcanciaCerdito} fluid />
+              <Image src={personaIcono} fluid />
             </div>
           </Col>
           <Col md="6">
