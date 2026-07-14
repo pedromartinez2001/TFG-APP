@@ -126,9 +126,32 @@
 }
 
 .learn-quiz-card .form-check-label {
-  margin-left: 0.5rem;
+  margin-left: 0;
   cursor: pointer;
   flex: 1;
+}
+
+.learn-quiz-card .form-check-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  margin: 0;
+}
+
+.learn-quiz-card .form-check {
+  display: flex;
+  align-items: center;
+}
+
+.learn-quiz-card .quiz-option-selected {
+  background-color: #eff6ff;
+  border-color: #2563eb !important;
+  box-shadow: inset 0 0 0 1px #2563eb;
+}
+
+.learn-quiz-card .quiz-option-selected .form-check-label {
+  color: #1d4ed8;
+  font-weight: 600;
 }
 
 .quiz-option-disabled {

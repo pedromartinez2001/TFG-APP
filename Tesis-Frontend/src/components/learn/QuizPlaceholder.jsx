@@ -21,12 +21,27 @@ const QuizCard = ({ quiz }) => {
   };
 
   const getOptionStyle = (option) => {
-    if (!submitted) return {};
+    if (!submitted) {
+      if (option === selected) {
+        return {
+          className: "quiz-option-selected",
+          style: { backgroundColor: "#eff6ff", borderColor: "#2563eb" },
+        };
+      }
+      return {};
+    }
+
     if (option === quiz.correctOption) {
-      return { className: "quiz-option-correct", style: { backgroundColor: "#d4edda", borderColor: "#28a745" } };
+      return {
+        className: "quiz-option-correct",
+        style: { backgroundColor: "#d4edda", borderColor: "#28a745" },
+      };
     }
     if (option === selected && !isCorrect) {
-      return { className: "quiz-option-incorrect", style: { backgroundColor: "#f8d7da", borderColor: "#dc3545" } };
+      return {
+        className: "quiz-option-incorrect",
+        style: { backgroundColor: "#f8d7da", borderColor: "#dc3545" },
+      };
     }
     return { className: "quiz-option-disabled" };
   };
@@ -48,6 +63,11 @@ const QuizCard = ({ quiz }) => {
                 label={option}
                 checked={selected === option}
                 onChange={() => setSelected(option)}
+                onClick={() => {
+                  if (!submitted) {
+                    setSelected(option);
+                  }
+                }}
                 disabled={submitted}
                 className={`mb-2 p-2 rounded ${className || ""}`}
                 style={{ cursor: submitted ? "default" : "pointer", ...style }}
