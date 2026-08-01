@@ -13,6 +13,46 @@ const LoginForm = () => {
   const googleButtonRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const renderGoogleButton = useCallback(() => {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+    if (!clientId || !googleButtonRef.current) return;
+
+    const existingScript = document.querySelector("script[data-google-gsi]");
+
+    const initializeGoogleButton = () => {
+      if (!window.google?.accounts?.id) return;
+
+      window.google.accounts.id.initialize({
+        client_id: clientId,
+        callback: handleGoogleResponse,
+      });
+
+      window.google.accounts.id.renderButton(googleButtonRef.current, {
+        type: "standard",
+        theme: "outline",
+        size: "large",
+        text: "signin_with",
+        shape: "rectangular",
+        logo_alignment: "left",
+        width: "100%",
+      });
+    };
+
+    if (existingScript) {
+      initializeGoogleButton();
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    script.dataset.googleGsi = "true";
+    script.onload = initializeGoogleButton;
+    document.body.appendChild(script);
+  }, [handleGoogleResponse]);
+
   const handleGoogleResponse = useCallback(
     async (response) => {
       try {
@@ -42,49 +82,8 @@ const LoginForm = () => {
   }, [navigate]);
 
   useEffect(() => {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-    if (!clientId || !googleButtonRef.current) return;
-
-    const existingScript = document.querySelector("script[data-google-gsi]");
-
-    if (existingScript) {
-      if (window.google?.accounts?.id) {
-        window.google.accounts.id.initialize({
-          client_id: clientId,
-          callback: handleGoogleResponse,
-        });
-        window.google.accounts.id.renderButton(googleButtonRef.current, {
-          theme: "outline",
-          size: "large",
-          text: "continue_with",
-          width: "100%",
-        });
-      }
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.defer = true;
-    script.dataset.googleGsi = "true";
-    script.onload = () => {
-      if (window.google?.accounts?.id) {
-        window.google.accounts.id.initialize({
-          client_id: clientId,
-          callback: handleGoogleResponse,
-        });
-        window.google.accounts.id.renderButton(googleButtonRef.current, {
-          theme: "outline",
-          size: "large",
-          text: "continue_with",
-          width: "100%",
-        });
-      }
-    };
-    document.body.appendChild(script);
-  }, [handleGoogleResponse]);
+    renderGoogleButton();
+  }, [renderGoogleButton]);
 
   const {
     register,
@@ -148,8 +147,11 @@ const LoginForm = () => {
             Iniciar sesión
           </Button>
 
-          <div className="mt-3">
-            <div ref={googleButtonRef} />
+          <div className="mt-3" style={{ width: "100%" }}>
+            <div
+              ref={googleButtonRef}
+              style={{ width: "100%", minHeight: "44px" }}
+            />
           </div>
 
           <div className="text-center mt-3">
