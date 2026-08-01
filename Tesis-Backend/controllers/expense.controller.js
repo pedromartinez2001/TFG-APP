@@ -1,6 +1,20 @@
 const Expense = require('../models/expense.model')
 const Vencimiento = require('../models/vencimiento.model')
 
+const normalizeDate = (value) => {
+    if (!value) return value
+
+    if (value instanceof Date) {
+        return value
+    }
+
+    if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return new Date(`${value}T12:00:00`)
+    }
+
+    return new Date(value)
+}
+
 const getExpenses=async(req,res)=>{
     const expenses=await Expense.find({user:req.user.id}).populate('user')
     res.json(expenses) 
@@ -18,7 +32,7 @@ const createExpense=async(req,res)=>{
         category,
         amount,
         description,
-        date,
+        date: normalizeDate(date),
         user:req.user.id
     })
     const savedExpense=await newExpense.save()
@@ -38,7 +52,12 @@ const deleteExpense=async(req,res)=>{
 }
  
 const updateExpense=async(req,res)=>{
-    const expense= await Expense.findByIdAndUpdate(req.params.id, req.body, {new:true})
+    const payload = {
+        ...req.body,
+        ...(req.body.date ? { date: normalizeDate(req.body.date) } : {})
+    }
+
+    const expense= await Expense.findByIdAndUpdate(req.params.id, payload, {new:true})
     if(!expense) return res.status(404).json({message:'Gasto no existe'})
     res.json(expense)
 }

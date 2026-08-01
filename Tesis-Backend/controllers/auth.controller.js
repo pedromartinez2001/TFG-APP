@@ -23,6 +23,18 @@ const register=async(req,res)=>{
     
 }
 
+const getCookieOptions = (req) => {
+  const isSecureRequest = req.secure || req.headers['x-forwarded-proto'] === 'https'
+
+  return {
+    httpOnly: true,
+    secure: isSecureRequest,
+    sameSite: isSecureRequest ? 'none' : 'lax',
+    path: '/',
+    maxAge: 24 * 60 * 60 * 1000
+  }
+}
+
 const login=async (req,res)=>{
      const {email,password}= req.body
      try {
@@ -32,12 +44,7 @@ const login=async (req,res)=>{
             const isMatch = await bcryptjs.compare(password,userFound.password)
         if(!isMatch) return res.status(400).json({message:'Contraseña incorrecta'})
             const token=await createAccessToken({id:userFound.id})
-        res.cookie('token', token, {
-          httpOnly: true,
-          secure: true,
-          sameSite: 'none',
-          maxAge: 24 * 60 * 60 * 1000
-        })
+        res.cookie('token', token, getCookieOptions(req))
         res.json({
             id:userFound.id,
             username:userFound.username,
@@ -52,10 +59,10 @@ const login=async (req,res)=>{
 }
 
 const logout=(req,res)=>{
+    const cookieOptions = getCookieOptions(req)
+
     res.cookie('token', '', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      ...cookieOptions,
       expires: new Date(0)
     })
     return res.sendStatus(200)

@@ -1,5 +1,19 @@
 const Income = require('../models/income.model')
 
+const normalizeDate = (value) => {
+    if (!value) return value
+
+    if (value instanceof Date) {
+        return value
+    }
+
+    if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return new Date(`${value}T12:00:00`)
+    }
+
+    return new Date(value)
+}
+
 const getIncomes=async(req,res)=>{
     const incomes=await Income.find({user:req.user.id}).populate('user')
     res.json(incomes) 
@@ -17,7 +31,7 @@ const createIncome=async(req,res)=>{
         category,
         amount,
         description,
-        date,
+        date: normalizeDate(date),
         user:req.user.id
     })
     const savedIncome=await newIncome.save()
@@ -31,7 +45,12 @@ const deleteIncome=async(req,res)=>{
 }
  
 const updateIncome=async(req,res)=>{
-    const income= await Income.findByIdAndUpdate(req.params.id, req.body, {new:true})
+    const payload = {
+        ...req.body,
+        ...(req.body.date ? { date: normalizeDate(req.body.date) } : {})
+    }
+
+    const income= await Income.findByIdAndUpdate(req.params.id, payload, {new:true})
     if(!income) return res.status(404).json({message:'Ingreso no existe'})
     res.json(income)
 }
