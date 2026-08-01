@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import userService from "../services/userService";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -11,13 +10,82 @@ import Alert from "react-bootstrap/Alert";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const googleButtonRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const handleGoogleResponse = useCallback(
+    async (response) => {
+      try {
+        const user = await userService.loginWithGoogle({
+          credential: response.credential,
+        });
+
+        if (user && user.data) {
+          localStorage.setItem("user", JSON.stringify(user.data));
+          navigate("/ingresos-gastos");
+        }
+      } catch (error) {
+        console.error("Error en login con Google:", error);
+        setErrorMessage(
+          error.response?.data?.message || "Error al iniciar sesión con Google",
+        );
+      }
+    },
+    [navigate],
+  );
+
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
       navigate("/ingresos-gastos");
     }
   }, [navigate]);
+
+  useEffect(() => {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+    if (!clientId || !googleButtonRef.current) return;
+
+    const existingScript = document.querySelector("script[data-google-gsi]");
+
+    if (existingScript) {
+      if (window.google?.accounts?.id) {
+        window.google.accounts.id.initialize({
+          client_id: clientId,
+          callback: handleGoogleResponse,
+        });
+        window.google.accounts.id.renderButton(googleButtonRef.current, {
+          theme: "outline",
+          size: "large",
+          text: "continue_with",
+          width: "100%",
+        });
+      }
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    script.dataset.googleGsi = "true";
+    script.onload = () => {
+      if (window.google?.accounts?.id) {
+        window.google.accounts.id.initialize({
+          client_id: clientId,
+          callback: handleGoogleResponse,
+        });
+        window.google.accounts.id.renderButton(googleButtonRef.current, {
+          theme: "outline",
+          size: "large",
+          text: "continue_with",
+          width: "100%",
+        });
+      }
+    };
+    document.body.appendChild(script);
+  }, [handleGoogleResponse]);
+
   const {
     register,
     handleSubmit,
@@ -79,6 +147,10 @@ const LoginForm = () => {
           <Button variant="primary" type="submit" className="w-100">
             Iniciar sesión
           </Button>
+
+          <div className="mt-3">
+            <div ref={googleButtonRef} />
+          </div>
 
           <div className="text-center mt-3">
             <span style={{ color: "#64748B" }}>¿No tienes cuenta? </span>

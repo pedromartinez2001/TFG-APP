@@ -18,20 +18,21 @@ const loginUser =async(user)=>{
     }
 }
 
-const profileUser = async () => {
+const loginWithGoogle = async (credential) => {
     try {
-        return await axios.get(`/profile`)
+        return await axios.post(`/login-google`, credential)
     } catch (error) {
-        throw error;
+        console.error("Error en loginWithGoogle:", error)
+        throw error
     }
+}
+
+const profileUser = async () => {
+    return await axios.get(`/profile`)
 }
 
 const logoutUser = async () => {
-    try {
-        return await axios.post(`/logout`)
-    } catch (error) {
-        throw error;
-    }
+    return await axios.post(`/logout`)
 }
 
-export default {registerUser,loginUser,profileUser,logoutUser}
+export default {registerUser,loginUser,loginWithGoogle,profileUser,logoutUser}
