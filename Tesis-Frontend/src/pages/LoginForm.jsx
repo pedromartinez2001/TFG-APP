@@ -13,6 +13,27 @@ const LoginForm = () => {
   const googleButtonRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const handleGoogleResponse = useCallback(
+    async (response) => {
+      try {
+        const user = await userService.loginWithGoogle({
+          credential: response.credential,
+        });
+
+        if (user && user.data) {
+          localStorage.setItem("user", JSON.stringify(user.data));
+          navigate("/ingresos-gastos");
+        }
+      } catch (error) {
+        console.error("Error en login con Google:", error);
+        setErrorMessage(
+          error.response?.data?.message || "Error al iniciar sesión con Google",
+        );
+      }
+    },
+    [navigate],
+  );
+
   const renderGoogleButton = useCallback(() => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -52,27 +73,6 @@ const LoginForm = () => {
     script.onload = initializeGoogleButton;
     document.body.appendChild(script);
   }, [handleGoogleResponse]);
-
-  const handleGoogleResponse = useCallback(
-    async (response) => {
-      try {
-        const user = await userService.loginWithGoogle({
-          credential: response.credential,
-        });
-
-        if (user && user.data) {
-          localStorage.setItem("user", JSON.stringify(user.data));
-          navigate("/ingresos-gastos");
-        }
-      } catch (error) {
-        console.error("Error en login con Google:", error);
-        setErrorMessage(
-          error.response?.data?.message || "Error al iniciar sesión con Google",
-        );
-      }
-    },
-    [navigate],
-  );
 
   useEffect(() => {
     const user = localStorage.getItem("user");
