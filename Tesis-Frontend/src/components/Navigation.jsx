@@ -33,7 +33,7 @@ const Navigation = () => {
   return (
     <Navbar
       collapseOnSelect
-      expand="xxl"
+      expand="md"
       className="p-2 p-sm-3 navbar-modern"
       style={{ backgroundColor: "var(--card)" }}
     >
@@ -48,7 +48,7 @@ const Navigation = () => {
       <Navbar.Collapse id="responsive-navbar-nav">
         {!newUser ? (
           <>
-            <Nav className="align-items-start align-items-xxl-center navbar-links navbar-links-main me-auto">
+            <Nav className="align-items-start align-items-md-center navbar-links navbar-links-main me-auto">
               <Nav.Link as={NavLink} to="/" className="nav-link-modern">
                 Inicio
               </Nav.Link>
@@ -63,7 +63,7 @@ const Navigation = () => {
                 Aprender
               </Nav.Link>
             </Nav>
-            <Nav className="align-items-start align-items-xxl-center mt-2 mt-xxl-0 ms-xxl-auto navbar-links navbar-links-login">
+            <Nav className="align-items-start align-items-md-center mt-2 mt-md-0 ms-md-auto navbar-links navbar-links-login">
               <Nav.Link as={NavLink} to="/login" className="nav-link-modern">
                 Iniciar sesión
               </Nav.Link>
@@ -71,7 +71,7 @@ const Navigation = () => {
           </>
         ) : (
           <>
-            <Nav className="flex-grow-1 justify-content-xxl-evenly align-items-start align-items-xxl-center navbar-links navbar-links-main">
+            <Nav className="flex-grow-1 justify-content-md-evenly align-items-start align-items-md-center navbar-links navbar-links-main">
               <Nav.Link as={NavLink} to="/" className="nav-link-modern">
                 Inicio
               </Nav.Link>
@@ -104,7 +104,7 @@ const Navigation = () => {
               </Nav.Link>
             </Nav>
             <div
-              className="d-flex flex-column flex-xxl-row align-items-xxl-center gap-2 mt-2 mt-xxl-0 navbar-user-wrap"
+              className="d-flex flex-column flex-md-row align-items-md-center gap-2 mt-2 mt-md-0 navbar-user-wrap"
               style={{ minWidth: "fit-content" }}
             >
               <Navbar.Text className="navbar-user-text">
