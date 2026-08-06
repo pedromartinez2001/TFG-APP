@@ -102,6 +102,7 @@ const UserView = () => {
               fecha={fecha}
               useRadioOptions={true}
               showDescription={true}
+              showCategory={true}
               categoryLabel={"Categoría"}
             />
           </Col>
