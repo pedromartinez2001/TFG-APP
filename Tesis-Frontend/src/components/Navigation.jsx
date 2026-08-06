@@ -4,6 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import userService from "../services/userService";
+import viruMark from "../images/viru-mark.svg";
 
 const Navigation = () => {
   const [newUser, setNewUser] = useState(
@@ -37,7 +38,11 @@ const Navigation = () => {
       style={{ backgroundColor: "var(--card)" }}
     >
       <Navbar.Brand className="navbar-brand-modern" as={Link} to="/">
-        Gestión de Finanzas
+        <img className="navbar-brand-mark" src={viruMark} alt="" />
+        <span className="navbar-brand-copy">
+          <span className="navbar-brand-name">VIRU</span>
+          <span className="navbar-brand-tagline">Educación financiera</span>
+        </span>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
