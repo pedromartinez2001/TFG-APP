@@ -56,8 +56,9 @@ const Navigation = () => {
                 as={NavLink}
                 to="/calculadora"
                 className="nav-link-modern"
+                title="Calculadora de préstamo y ahorro"
               >
-                Calculadora de Prestamo/Ahorro
+                Calculadora
               </Nav.Link>
               <Nav.Link as={NavLink} to="/aprender" className="nav-link-modern">
                 Aprender
@@ -79,21 +80,28 @@ const Navigation = () => {
                 as={NavLink}
                 to="/ingresos-gastos"
                 className="nav-link-modern"
+                title="Ingresos y gastos"
               >
-                Ingresos y gastos
+                Movimientos
               </Nav.Link>
               <Nav.Link
                 as={NavLink}
                 to="/calculadora"
                 className="nav-link-modern"
+                title="Calculadora de préstamo y ahorro"
               >
-                Calculadora de Prestamo/Ahorro
+                Calculadora
               </Nav.Link>
               <Nav.Link as={NavLink} to="/aprender" className="nav-link-modern">
                 Aprender
               </Nav.Link>
-              <Nav.Link as={NavLink} to="/avisos" className="nav-link-modern">
-                Vencimiento de cuotas
+              <Nav.Link
+                as={NavLink}
+                to="/avisos"
+                className="nav-link-modern"
+                title="Vencimiento de cuotas"
+              >
+                Vencimientos
               </Nav.Link>
               <Nav.Link
                 as={NavLink}
@@ -108,7 +116,8 @@ const Navigation = () => {
               style={{ minWidth: "fit-content" }}
             >
               <Navbar.Text className="navbar-user-text">
-                Bienvenido: {newUser?.username}
+                <span className="navbar-user-greeting">Hola, </span>
+                <strong className="navbar-username">{newUser?.username}</strong>
               </Navbar.Text>
               <Button
                 variant="danger"

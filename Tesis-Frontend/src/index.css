@@ -281,13 +281,14 @@ a:hover {
 
 @media (min-width: 768px) {
   .navbar-links-main {
-    width: 100%;
-    gap: 0.2rem;
+    width: auto;
+    gap: 0.35rem;
+    justify-content: center !important;
   }
 
   .navbar-links-main .nav-link-modern {
-    flex: 1 1 0;
-    padding-inline: 0.6rem;
+    flex: 0 1 auto;
+    padding-inline: 0.75rem;
   }
 
   .navbar-links-login {
@@ -319,6 +320,7 @@ a:hover {
   border-radius: 999px;
   padding: 0.35rem 0.45rem;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  flex: 0 0 auto;
 }
 
 .navbar-user-text {
@@ -326,6 +328,15 @@ a:hover {
   white-space: nowrap;
   font-weight: 500;
   margin: 0 0.2rem;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.navbar-username {
+  color: #1e3a5f;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .navbar-user-text::before {
@@ -434,13 +445,13 @@ a:hover {
   }
 
   .navbar-links-main {
-    gap: 0;
+    gap: 0.15rem;
   }
 
   .navbar-links .nav-link-modern {
     min-height: 36px;
     padding: 0.35rem 0.4rem;
-    font-size: clamp(0.68rem, 0.9vw, 0.82rem);
+    font-size: clamp(0.74rem, 0.95vw, 0.86rem);
     white-space: nowrap;
   }
 
@@ -450,10 +461,12 @@ a:hover {
   }
 
   .navbar-user-text {
-    max-width: 105px;
-    overflow: hidden;
-    font-size: 0.78rem;
-    text-overflow: ellipsis;
+    max-width: 150px;
+    font-size: 0.8rem;
+  }
+
+  .navbar-user-greeting {
+    flex: 0 0 auto;
   }
 
   .navbar-logout-btn {
