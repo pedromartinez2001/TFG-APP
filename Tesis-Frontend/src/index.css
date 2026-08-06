@@ -1104,6 +1104,10 @@ body {
   width: 100%;
 }
 
+.movement-mobile-tabs {
+  display: none;
+}
+
 .movements-page .month-picker-panel {
   width: min(100%, 310px);
 }
@@ -1532,6 +1536,141 @@ body {
   .finance-charts-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .category-option-grid { grid-template-columns: 1fr; }
   .records-empty-row td::before { display: none !important; }
+
+  .movements-page .page-header {
+    margin-bottom: 1rem;
+  }
+
+  .movements-page .page-header p {
+    max-width: 32ch;
+    margin-inline: auto;
+  }
+
+  .movements-page .month-picker-panel {
+    width: calc(100% - 1.5rem);
+  }
+
+  .movement-mobile-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+    padding: 0.3rem;
+    background: #eaf1f8;
+    border-radius: 13px;
+  }
+
+  .movement-mobile-tabs button {
+    min-height: 44px;
+    color: #52677d;
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    font-weight: 750;
+  }
+
+  .movement-mobile-tabs button.active {
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb, #0877bd);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.2);
+  }
+
+  .movement-section {
+    display: none;
+  }
+
+  .movement-section.is-mobile-active {
+    display: block;
+  }
+
+  .movements-page .records-panel {
+    padding: 0.8rem;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .movements-page .records-table-heading {
+    padding-inline: 0.15rem;
+  }
+
+  .movements-page .records-table-heading h1 {
+    font-size: 1.35rem;
+  }
+
+  .movements-page .records-table.table-mobile-stack tbody {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .movements-page .records-table.table-mobile-stack tr {
+    margin: 0;
+    padding: 0.35rem 0.8rem;
+    background: #fff;
+    border: 1px solid #dbe5f1 !important;
+    border-radius: 14px;
+    box-shadow: 0 7px 18px rgba(15, 39, 71, 0.06);
+  }
+
+  .movements-page .records-table.table-mobile-stack td {
+    display: grid;
+    grid-template-columns: minmax(88px, 38%) minmax(0, 62%);
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.62rem 0 !important;
+    text-align: right !important;
+    border-bottom: 1px solid #edf2f7 !important;
+  }
+
+  .movements-page .records-table.table-mobile-stack td::before {
+    margin: 0;
+    color: #64748b;
+    text-align: left;
+  }
+
+  .movements-page .records-actions {
+    justify-content: flex-end;
+  }
+
+  .movements-page .records-actions .btn {
+    min-width: 108px;
+    min-height: 38px;
+  }
+
+  .movements-page .expense-type-badge {
+    justify-self: end;
+  }
+
+  .movements-page .records-total-row td {
+    display: block;
+    padding: 0.8rem !important;
+    text-align: left !important;
+    border: 0 !important;
+  }
+
+  .movements-page .records-total-row td::before {
+    display: none;
+  }
+
+  .movements-page .records-empty-row td {
+    display: block;
+    text-align: center !important;
+    border: 0 !important;
+  }
+
+  .movement-charts-heading h2 {
+    font-size: 1.25rem;
+  }
+
+  .finance-chart-item {
+    width: min(100%, 270px);
+  }
+}
+
+@media (min-width: 768px) {
+  .movement-section {
+    display: block !important;
+  }
 }
 
 @media (max-width: 576px) {

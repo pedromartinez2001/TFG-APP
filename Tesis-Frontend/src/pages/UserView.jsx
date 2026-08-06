@@ -14,6 +14,7 @@ dayjs.locale("es");
 const UserView = () => {
   const [fecha, setFecha] = useState(new Date());
   const [ahorroMes, setAhorroMes] = useState(0);
+  const [mobileSection, setMobileSection] = useState("expenses");
   const optionsIngresos = [
     { value: "salario", label: "Salario" },
     { value: "freelance", label: "Trabajo Freelance" },
@@ -85,8 +86,28 @@ const UserView = () => {
         </Col>
       </Row>
       <div className="movements-content">
+        <div className="movement-mobile-tabs" role="tablist" aria-label="Ver movimientos">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mobileSection === "income"}
+            className={mobileSection === "income" ? "active" : ""}
+            onClick={() => setMobileSection("income")}
+          >
+            Ingresos
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mobileSection === "expenses"}
+            className={mobileSection === "expenses" ? "active" : ""}
+            onClick={() => setMobileSection("expenses")}
+          >
+            Gastos
+          </button>
+        </div>
         <Row className="g-4">
-          <Col xs={12}>
+          <Col xs={12} className={`movement-section movement-section--income ${mobileSection === "income" ? "is-mobile-active" : ""}`}>
             <IngresosGastos
               title={"Ingresos"}
               service={incomeService}
@@ -96,7 +117,7 @@ const UserView = () => {
               extraInfoColor="#16A34A"
             />
           </Col>
-          <Col xs={12}>
+          <Col xs={12} className={`movement-section movement-section--expenses ${mobileSection === "expenses" ? "is-mobile-active" : ""}`}>
             <IngresosGastos
               title={"Gastos"}
               service={expenseService}
