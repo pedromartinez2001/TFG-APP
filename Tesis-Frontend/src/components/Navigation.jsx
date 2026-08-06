@@ -45,10 +45,12 @@ const Navigation = () => {
         </span>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav">
+      <Navbar.Collapse
+        id="responsive-navbar-nav"
+        className={!newUser ? "navbar-collapse-guest" : undefined}
+      >
         {!newUser ? (
-          <>
-            <Nav className="align-items-start align-items-md-center navbar-links navbar-links-main me-auto">
+          <Nav className="align-items-start align-items-md-center navbar-links navbar-links-guest">
               <Nav.Link as={NavLink} to="/" className="nav-link-modern">
                 Inicio
               </Nav.Link>
@@ -63,13 +65,14 @@ const Navigation = () => {
               <Nav.Link as={NavLink} to="/aprender" className="nav-link-modern">
                 Aprender
               </Nav.Link>
-            </Nav>
-            <Nav className="align-items-start align-items-md-center mt-2 mt-md-0 ms-md-auto navbar-links navbar-links-login">
-              <Nav.Link as={NavLink} to="/login" className="nav-link-modern">
+              <Nav.Link
+                as={NavLink}
+                to="/login"
+                className="nav-link-modern nav-link-login"
+              >
                 Iniciar sesión
               </Nav.Link>
-            </Nav>
-          </>
+          </Nav>
         ) : (
           <>
             <Nav className="flex-grow-1 justify-content-md-evenly align-items-start align-items-md-center navbar-links navbar-links-main">
