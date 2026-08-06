@@ -27,6 +27,28 @@ const IngresosGastos = (props) => {
     [categoryLabels],
   );
 
+  const getCategoryColorClass = (category = "") => {
+    const normalizedCategory = category.toLowerCase();
+    const needs = [
+      "necesidades",
+      "alquiler",
+      "comida",
+      "transporte",
+      "servicios",
+      "salud",
+      "educacion",
+    ];
+    const wants = ["deseos", "entretenimiento", "ropa", "otro"];
+    const savings = ["ahorro_deudas", "ahorro", "deudas"];
+
+    if (needs.includes(normalizedCategory)) return "expense-type-badge--needs";
+    if (wants.includes(normalizedCategory)) return "expense-type-badge--wants";
+    if (savings.includes(normalizedCategory)) {
+      return "expense-type-badge--savings";
+    }
+    return "expense-type-badge--other";
+  };
+
   const sortedViews = useMemo(() => {
     const items = [...view];
 
@@ -51,6 +73,12 @@ const IngresosGastos = (props) => {
           "es",
         ),
       );
+    }
+    if (sortBy === "date-desc") {
+      return items.sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf());
+    }
+    if (sortBy === "date-asc") {
+      return items.sort((a, b) => dayjs(a.date).valueOf() - dayjs(b.date).valueOf());
     }
 
     return items;
@@ -125,6 +153,8 @@ const IngresosGastos = (props) => {
             <option value="amount-asc">Monto: menor a mayor</option>
             <option value="category-asc">Tipo: A a Z</option>
             <option value="category-desc">Tipo: Z a A</option>
+            <option value="date-desc">Fecha: más reciente</option>
+            <option value="date-asc">Fecha: más antigua</option>
           </Form.Select>
         )}
       </div>
@@ -134,6 +164,7 @@ const IngresosGastos = (props) => {
             <th>Concepto</th>
             {props.showCategory && <th>Tipo</th>}
             <th>Monto</th>
+            <th>Fecha</th>
             <th>Eliminar</th>
           </tr>
         </thead>
@@ -143,7 +174,9 @@ const IngresosGastos = (props) => {
               <td>{view.description || view.category}</td>
               {props.showCategory && (
                 <td>
-                  <span className="expense-type-badge">
+                  <span
+                    className={`expense-type-badge ${getCategoryColorClass(view.category)}`}
+                  >
                     {getCategoryLabel(view.category)}
                   </span>
                 </td>
@@ -151,6 +184,7 @@ const IngresosGastos = (props) => {
               <td>{`Gs. ${view.amount.toLocaleString("es-PY", {
                 minimumFractionDigits: 0,
               })}`}</td>
+              <td>{dayjs(view.date).format("DD/MM/YYYY")}</td>
               <td>
                 <div style={{ justifyContent: "center", display: "flex" }}>
                   <Button
@@ -167,7 +201,7 @@ const IngresosGastos = (props) => {
             </tr>
           ))}
           <tr>
-            <td colSpan={props.showCategory ? 3 : 2}>
+            <td colSpan={props.showCategory ? 4 : 3}>
               <strong>
                 Total:{" "}
                 {`Gs. ${view

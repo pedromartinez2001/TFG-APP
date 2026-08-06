@@ -529,13 +529,34 @@ a:hover {
   align-items: center;
   min-height: 28px;
   padding: 0.25rem 0.6rem;
-  color: #1d4ed8;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
   border-radius: 999px;
   font-size: 0.82rem;
   font-weight: 600;
   white-space: nowrap;
+}
+
+.expense-type-badge--needs {
+  color: #15803d;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+}
+
+.expense-type-badge--wants {
+  color: #b45309;
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+}
+
+.expense-type-badge--savings {
+  color: #1d4ed8;
+  background: #eff6ff;
+  border: 1px solid #93c5fd;
+}
+
+.expense-type-badge--other {
+  color: #475569;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
 }
 
 @media (max-width: 576px) {
