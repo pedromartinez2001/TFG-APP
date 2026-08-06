@@ -7,7 +7,13 @@ const vencimientoSchema = new mongoose.Schema({
     },
     fechaVencimiento: {
         type: String, // o Date, pero como es string en frontend
-        required: true
+        default: null,
+        validate: {
+            validator: function(value) {
+                return this.esCuotaFija || Boolean(value)
+            },
+            message: 'La fecha de vencimiento es obligatoria para cuotas no fijas'
+        }
     },
     esCuotaFija: {
         type: Boolean,

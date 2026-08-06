@@ -176,52 +176,9 @@ const MiDoughnutChart = (props) => {
   };
 
   return (
-    <Container
-      style={{
-        minHeight: "14rem",
-        maxWidth: "100%",
-        margin: "0 auto",
-        padding: "0",
-      }}
-    >
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: "1rem",
-          alignItems: "start",
-        }}
-      >
-        <div
-          style={{ maxWidth: "clamp(180px, 40vw, 240px)", margin: "0 auto" }}
-        >
-          <div
-            style={{
-              minHeight: "2.2rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: "0.4rem",
-            }}
-          >
-            <p
-              style={{
-                margin: 0,
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                color: "transparent",
-                textAlign: "center",
-                visibility: "hidden",
-              }}
-            >
-              Un grafico saludable deberia verse asi:
-            </p>
-          </div>
-          <Doughnut data={data} options={options} />
-        </div>
-        <div
-          style={{ maxWidth: "clamp(180px, 40vw, 240px)", margin: "0 auto" }}
-        >
+    <Container className="finance-charts">
+      <div className="finance-charts-grid">
+        <div className="finance-chart-item">
           <div
             style={{
               minHeight: "2.2rem",
@@ -240,7 +197,31 @@ const MiDoughnutChart = (props) => {
                 textAlign: "center",
               }}
             >
-              Un grafico saludable deberia verse asi:
+              Tu distribución actual
+            </p>
+          </div>
+          <Doughnut data={data} options={options} />
+        </div>
+        <div className="finance-chart-item">
+          <div
+            style={{
+              minHeight: "2.2rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "0.4rem",
+            }}
+          >
+            <p
+              style={{
+                margin: 0,
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                color: "#334155",
+                textAlign: "center",
+              }}
+            >
+              Distribución saludable sugerida
             </p>
           </div>
           <Doughnut data={healthyData} options={healthyOptions} />

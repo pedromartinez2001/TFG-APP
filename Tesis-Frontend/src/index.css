@@ -1100,6 +1100,129 @@ body {
 .month-picker-panel { padding: 0.75rem; }
 .page-actions { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
 
+.movements-content {
+  width: 100%;
+}
+
+.movements-page .month-picker-panel {
+  width: min(100%, 310px);
+}
+
+.movements-page .month-picker-panel > div,
+.movements-page .month-picker-panel .MuiFormControl-root {
+  width: 100%;
+}
+
+.records-table-heading {
+  align-items: flex-end;
+}
+
+.records-sort-select {
+  flex: 0 1 250px;
+  min-width: 220px;
+}
+
+.records-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.records-create-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.records-empty-row td {
+  padding: 2rem !important;
+  color: #64748b !important;
+  text-align: center;
+}
+
+.records-total-row td {
+  color: #0f2747 !important;
+  background: linear-gradient(135deg, #f8fbff, #eff6ff) !important;
+}
+
+.movement-charts-panel {
+  padding: clamp(1rem, 3vw, 1.75rem);
+  background: #fff;
+  border: 1px solid rgba(203, 213, 225, 0.78);
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(15, 39, 71, 0.07);
+}
+
+.movement-charts-heading {
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.movement-charts-heading h2 {
+  margin-bottom: 0.35rem;
+  color: #0f2747;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.movement-charts-heading p {
+  margin: 0;
+  color: var(--subtext);
+}
+
+.finance-charts {
+  min-height: 14rem;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+}
+
+.finance-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: clamp(1rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.finance-chart-item {
+  width: min(100%, 300px);
+  margin: 0 auto;
+}
+
+.category-option-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.category-option {
+  min-height: 52px;
+  padding: 0.7rem 0.45rem;
+  color: #475569;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.category-option.active {
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #0877bd);
+  border-color: transparent;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.18);
+}
+
+.recurring-payment-help {
+  display: block;
+  margin: -0.35rem 0 0.75rem;
+  padding: 0.75rem;
+  color: #475569;
+  background: #eff6ff;
+  border-left: 3px solid #3b82f6;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
 .btn {
   border-radius: 10px;
   font-weight: 650;
@@ -1402,6 +1525,13 @@ body {
   .page-actions { justify-content: stretch; }
   .page-actions .btn { width: 100%; }
   .table-responsive { border: 0; }
+  .records-table-heading { align-items: stretch; }
+  .records-sort-select { width: 100%; min-width: 0; }
+  .records-create-action .btn { width: 100%; min-height: 46px; }
+  .movement-charts-panel { padding: 1rem 0.75rem; border-radius: 14px; }
+  .finance-charts-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .category-option-grid { grid-template-columns: 1fr; }
+  .records-empty-row td::before { display: none !important; }
 }
 
 @media (max-width: 576px) {

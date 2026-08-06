@@ -2,6 +2,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import dayjs from "dayjs";
+import { formatThousandsInput, parseThousandsInput } from "../utils/numberFormat";
 
 const ModalForm = ({
   options,
@@ -13,6 +14,7 @@ const ModalForm = ({
   categoryLabel = "Selecciona una opción",
 }) => {
   const [show, setShow] = useState(false);
+  const [amountDisplay, setAmountDisplay] = useState("");
   const {
     register,
     handleSubmit,
@@ -30,7 +32,9 @@ const ModalForm = ({
   const minDate = dayjs(fecha).startOf("month").format("YYYY-MM-DD"); // Primer día del mes
   const maxDate = dayjs(fecha).endOf("month").format("YYYY-MM-DD"); // Último día del mes
   const handleClose = () => {
-    (setShow(false), reset());
+    setShow(false);
+    setAmountDisplay("");
+    reset();
   };
   const handleShow = () => setShow(true);
 
@@ -71,13 +75,7 @@ const ModalForm = ({
                     type="hidden"
                     {...register("category", { required: true })}
                   />
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                      gap: "0.5rem",
-                    }}
-                  >
+                  <div className="category-option-grid">
                     {options.map((opt, index) => {
                       const isSelected = selectedCategory === opt.value;
                       return (
@@ -89,19 +87,7 @@ const ModalForm = ({
                               shouldValidate: true,
                             })
                           }
-                          style={{
-                            border: isSelected
-                              ? "2px solid var(--primary)"
-                              : "1px solid #D0D7DE",
-                            borderRadius: "8px",
-                            background: isSelected
-                              ? "rgba(37, 99, 235, 0.1)"
-                              : "#fff",
-                            color: "var(--text)",
-                            padding: "0.75rem 0.5rem",
-                            fontWeight: 600,
-                            cursor: "pointer",
-                          }}
+                          className={`category-option ${isSelected ? "active" : ""}`}
                         >
                           {opt.label}
                         </button>
@@ -137,10 +123,19 @@ const ModalForm = ({
 
             <Form.Group controlId="formAmount">
               <Form.Label>Monto</Form.Label>
+              <input type="hidden" {...register("amount", { required: true })} />
               <Form.Control
-                type="number"
-                placeholder="Ingrese monto"
-                {...register("amount", { required: true })}
+                type="text"
+                inputMode="numeric"
+                placeholder="Ej: 1.000.000"
+                value={amountDisplay}
+                onChange={(event) => {
+                  const formatted = formatThousandsInput(event.target.value);
+                  setAmountDisplay(formatted);
+                  setValue("amount", formatted ? parseThousandsInput(formatted) : "", {
+                    shouldValidate: true,
+                  });
+                }}
               />
             </Form.Group>
 

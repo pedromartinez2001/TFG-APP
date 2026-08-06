@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Container, Form, Modal, Table } from "react-bootstrap";
 import dayjs from "dayjs";
 import savingGoalService from "../services/savingGoalService";
+import { formatThousandsInput, parseThousandsInput } from "../utils/numberFormat";
 
 const formatGs = (value) =>
   `Gs. ${Number(value || 0).toLocaleString("es-PY", {
@@ -43,7 +44,7 @@ const PaginaMetasAhorro = () => {
       return;
     }
 
-    if (!montoObjetivo || Number(montoObjetivo) <= 0) {
+    if (!montoObjetivo || parseThousandsInput(montoObjetivo) <= 0) {
       alert("Ingrese un monto objetivo válido.");
       return;
     }
@@ -56,7 +57,7 @@ const PaginaMetasAhorro = () => {
     try {
       const nuevaMeta = await savingGoalService.create({
         nombre: nombre.trim(),
-        montoObjetivo: Number(montoObjetivo),
+        montoObjetivo: parseThousandsInput(montoObjetivo),
         plazoMeses: Number(plazoMeses),
       });
       setMetas((prev) => [nuevaMeta, ...prev]);
@@ -93,14 +94,14 @@ const PaginaMetasAhorro = () => {
   const sumarAhorro = async () => {
     if (!selectedMeta) return;
 
-    if (!montoAgregar || Number(montoAgregar) <= 0) {
+    if (!montoAgregar || parseThousandsInput(montoAgregar) <= 0) {
       alert("Ingrese un monto válido para sumar al ahorro.");
       return;
     }
 
     try {
       const updatedMeta = await savingGoalService.update(selectedMeta._id, {
-        amountToAdd: Number(montoAgregar),
+        amountToAdd: parseThousandsInput(montoAgregar),
       });
       setMetas((prev) =>
         prev.map((meta) => (meta._id === updatedMeta._id ? updatedMeta : meta)),
@@ -265,10 +266,11 @@ const PaginaMetasAhorro = () => {
             <Form.Group className="mb-3">
               <Form.Label>Monto que quiere ahorrar</Form.Label>
               <Form.Control
-                type="number"
-                placeholder="Ej: 3000000"
+                type="text"
+                inputMode="numeric"
+                placeholder="Ej: 3.000.000"
                 value={montoObjetivo}
-                onChange={(e) => setMontoObjetivo(e.target.value)}
+                onChange={(e) => setMontoObjetivo(formatThousandsInput(e.target.value))}
               />
             </Form.Group>
             <Form.Group>
@@ -317,11 +319,11 @@ const PaginaMetasAhorro = () => {
           <Form.Group>
             <Form.Label>Monto ahorrado</Form.Label>
             <Form.Control
-              type="number"
-              min="1"
-              placeholder="Ingrese el monto ahorrado"
+              type="text"
+              inputMode="numeric"
+              placeholder="Ej: 500.000"
               value={montoAgregar}
-              onChange={(e) => setMontoAgregar(e.target.value)}
+              onChange={(e) => setMontoAgregar(formatThousandsInput(e.target.value))}
             />
           </Form.Group>
         </Modal.Body>

@@ -158,7 +158,7 @@ const IngresosGastos = (props) => {
           </Form.Select>
         )}
       </div>
-      <Table striped bordered hover responsive>
+      <Table striped bordered hover responsive className="records-table table-mobile-stack">
         <thead>
           <tr>
             <th>Concepto</th>
@@ -169,11 +169,18 @@ const IngresosGastos = (props) => {
           </tr>
         </thead>
         <tbody>
+          {sortedViews.length === 0 && (
+            <tr className="records-empty-row">
+              <td colSpan={props.showCategory ? 5 : 4}>
+                No hay {props.title.toLowerCase()} registrados en este mes.
+              </td>
+            </tr>
+          )}
           {sortedViews.map((view) => (
             <tr key={view._id}>
-              <td>{view.description || view.category}</td>
+              <td data-label="Concepto">{view.description || getCategoryLabel(view.category)}</td>
               {props.showCategory && (
-                <td>
+                <td data-label="Tipo">
                   <span
                     className={`expense-type-badge ${getCategoryColorClass(view.category)}`}
                   >
@@ -181,12 +188,12 @@ const IngresosGastos = (props) => {
                   </span>
                 </td>
               )}
-              <td>{`Gs. ${view.amount.toLocaleString("es-PY", {
+              <td data-label="Monto">{`Gs. ${view.amount.toLocaleString("es-PY", {
                 minimumFractionDigits: 0,
               })}`}</td>
-              <td>{dayjs(view.date).format("DD/MM/YYYY")}</td>
-              <td>
-                <div style={{ justifyContent: "center", display: "flex" }}>
+              <td data-label="Fecha">{dayjs(view.date).format("DD/MM/YYYY")}</td>
+              <td data-label="Acciones">
+                <div className="records-actions">
                   <Button
                     size="sm"
                     variant="outline-danger"
@@ -200,8 +207,8 @@ const IngresosGastos = (props) => {
               </td>
             </tr>
           ))}
-          <tr>
-            <td colSpan={props.showCategory ? 4 : 3}>
+          <tr className="table-summary-row records-total-row">
+            <td colSpan={props.showCategory ? 5 : 4}>
               <strong>
                 Total:{" "}
                 {`Gs. ${view
@@ -220,11 +227,10 @@ const IngresosGastos = (props) => {
                 </div>
               )}
             </td>
-            <td></td>
           </tr>
         </tbody>
       </Table>
-      <div style={{ marginTop: "1rem" }}>
+      <div className="records-create-action">
         <ModalForm
           options={props.options}
           onSubmit={handleCreate}

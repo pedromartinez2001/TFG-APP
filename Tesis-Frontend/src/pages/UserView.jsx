@@ -84,9 +84,9 @@ const UserView = () => {
           </LocalizationProvider>
         </Col>
       </Row>
-      <Container>
+      <div className="movements-content">
         <Row className="g-4">
-          <Col xs={12} xl={6}>
+          <Col xs={12}>
             <IngresosGastos
               title={"Ingresos"}
               service={incomeService}
@@ -96,7 +96,7 @@ const UserView = () => {
               extraInfoColor="#16A34A"
             />
           </Col>
-          <Col xs={12} xl={6}>
+          <Col xs={12}>
             <IngresosGastos
               title={"Gastos"}
               service={expenseService}
@@ -109,16 +109,23 @@ const UserView = () => {
             />
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row className="mt-4">
+          <Col xs={12}>
+            <section className="movement-charts-panel">
+              <div className="movement-charts-heading">
+                <span className="page-eyebrow">Distribución del mes</span>
+                <h2>Así se comportan tus finanzas</h2>
+                <p>Compara tus resultados con una distribución financiera saludable.</p>
+              </div>
             <MiDoughnutChart
               fecha={fecha}
               service={expenseService}
               incomeService={incomeService}
             />
+            </section>
           </Col>
         </Row>
-      </Container>
+      </div>
     </Container>
   );
 };

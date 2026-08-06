@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Button as BsButton, Modal, Form, Table } from "react-bootstrap";
 import dayjs from "dayjs";
 import vencimientoService from "../services/vencimientoService";
+import { formatThousandsInput, parseThousandsInput } from "../utils/numberFormat";
 
 const CATEGORIAS = [
   { value: "necesidades", label: "Necesidades" },
@@ -62,7 +63,7 @@ const RegistrosPagoMensualidades = () => {
       alert("Por favor, ingrese el monto de la cuota.");
       return;
     }
-    if (!fechaVencimiento) {
+    if (!esCuotaFija && !fechaVencimiento) {
       alert("Por favor, seleccione la fecha de vencimiento.");
       return;
     }
@@ -73,10 +74,10 @@ const RegistrosPagoMensualidades = () => {
 
     const nueva = {
       descripcion,
-      fechaVencimiento,
+      fechaVencimiento: esCuotaFija ? null : fechaVencimiento,
       esCuotaFija,
       cantidadTotalCuotas: esCuotaFija ? null : parseInt(cantidadTotalCuotas),
-      montoCuota: parseFloat(montoCuota),
+      montoCuota: parseThousandsInput(montoCuota),
       categoria,
     };
     try {
@@ -132,6 +133,7 @@ const RegistrosPagoMensualidades = () => {
 
   const estadoInfo = (ob) => {
     if (ob.completado) return { label: "Completada", color: "#2563eb" };
+    if (ob.esCuotaFija) return { label: "Recurrente", color: "#7c3aed" };
     if (dayjs().isAfter(dayjs(ob.fechaVencimiento), "day"))
       return { label: "Vencida", color: "#dc2626" };
     return { label: "Al día", color: "#16a34a" };
@@ -191,7 +193,9 @@ const RegistrosPagoMensualidades = () => {
                 <td data-label="Monto">{formatearGs(ob.montoCuota)}</td>
                 <td data-label="Categoría">{catLabel}</td>
                 <td data-label="Vencimiento">
-                  {dayjs(ob.fechaVencimiento).format("DD/MM/YYYY")}
+                  {ob.esCuotaFija
+                    ? "Sin vencimiento"
+                    : dayjs(ob.fechaVencimiento).format("DD/MM/YYYY")}
                 </td>
                 <td data-label="Estado">
                   <span style={{ color, fontWeight: 600 }}>{label}</span>
@@ -261,10 +265,11 @@ const RegistrosPagoMensualidades = () => {
             <Form.Group className="mb-3">
               <Form.Label>Monto de la cuota (Gs.)</Form.Label>
               <Form.Control
-                type="number"
-                placeholder="Ingrese monto"
+                type="text"
+                inputMode="numeric"
+                placeholder="Ej: 250.000"
                 value={montoCuota}
-                onChange={(e) => setMontoCuota(e.target.value)}
+                onChange={(e) => setMontoCuota(formatThousandsInput(e.target.value))}
               />
             </Form.Group>
 
@@ -305,22 +310,29 @@ const RegistrosPagoMensualidades = () => {
               </div>
             </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Fecha de Vencimiento</Form.Label>
-              <Form.Control
-                type="date"
-                value={fechaVencimiento}
-                onChange={(e) => setFechaVencimiento(e.target.value)}
-              />
-            </Form.Group>
-
             <Form.Check
               type="checkbox"
-              label="Es cuota fija"
+              label="Es un pago fijo recurrente"
               checked={esCuotaFija}
               onChange={(e) => setEsCuotaFija(e.target.checked)}
               className="mb-3"
             />
+
+            <Form.Text className="recurring-payment-help">
+              Marca esta opción para servicios que se repiten todos los meses,
+              como celular, agua, alquiler o luz. Estos pagos no tienen fecha de vencimiento.
+            </Form.Text>
+
+            {!esCuotaFija && (
+              <Form.Group className="mb-3 mt-3">
+                <Form.Label>Fecha de vencimiento</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={fechaVencimiento}
+                  onChange={(e) => setFechaVencimiento(e.target.value)}
+                />
+              </Form.Group>
+            )}
 
             {!esCuotaFija && (
               <Form.Group className="mb-3">

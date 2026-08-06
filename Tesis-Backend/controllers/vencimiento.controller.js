@@ -6,7 +6,7 @@ const crearExpenseDesdeVencimiento = async ({ categoria, montoCuota, descripcion
         category: categoria,
         amount: montoCuota,
         description: `${descripcion} (Cuota)`,
-        date: new Date(fechaVencimiento),
+        date: fechaVencimiento ? new Date(fechaVencimiento) : new Date(),
         user
     })
 
@@ -74,12 +74,13 @@ const updateVencimiento = async (req, res) => {
         vencimiento.pagosRealizados += 1
 
         if (vencimiento.esCuotaFija) {
-            vencimiento.fechaVencimiento = sumarUnMes(vencimiento.fechaVencimiento)
+            const fechaContable = new Date()
+            fechaContable.setMonth(fechaContable.getMonth() + 1)
             const savedExpense = await crearExpenseDesdeVencimiento({
                 categoria: vencimiento.categoria,
                 montoCuota: vencimiento.montoCuota,
                 descripcion: vencimiento.descripcion,
-                fechaVencimiento: vencimiento.fechaVencimiento,
+                fechaVencimiento: fechaContable,
                 user: vencimiento.user
             })
             vencimiento.expenseId = savedExpense._id

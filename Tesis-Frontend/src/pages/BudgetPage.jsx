@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CheckCircle2, PiggyBank, ShoppingBag, WalletCards } from "lucide-react";
+import { formatThousandsInput, parseThousandsInput } from "../utils/numberFormat";
 
 const formatGs = (amount) =>
   `Gs. ${Math.round(amount).toLocaleString("es-PY", {
@@ -45,8 +46,8 @@ const BudgetPage = () => {
   const [showResults, setShowResults] = useState(false);
 
   const totalIncome = useMemo(() => {
-    const ownIncome = Number(salary) || 0;
-    const secondIncome = householdType === "couple" ? Number(partnerSalary) || 0 : 0;
+    const ownIncome = parseThousandsInput(salary);
+    const secondIncome = householdType === "couple" ? parseThousandsInput(partnerSalary) : 0;
     return ownIncome + secondIncome;
   }, [householdType, partnerSalary, salary]);
 
@@ -104,12 +105,11 @@ const BudgetPage = () => {
                   <div className="budget-input-wrap">
                     <span>Gs.</span>
                     <Form.Control
-                      type="number"
-                      min="1"
-                      step="1"
+                      type="text"
+                      inputMode="numeric"
                       value={salary}
                       onChange={(event) => {
-                        setSalary(event.target.value);
+                        setSalary(formatThousandsInput(event.target.value));
                         setShowResults(false);
                       }}
                       placeholder="Ej: 4.500.000"
@@ -124,12 +124,11 @@ const BudgetPage = () => {
                     <div className="budget-input-wrap">
                       <span>Gs.</span>
                       <Form.Control
-                        type="number"
-                        min="1"
-                        step="1"
+                        type="text"
+                        inputMode="numeric"
                         value={partnerSalary}
                         onChange={(event) => {
-                          setPartnerSalary(event.target.value);
+                          setPartnerSalary(formatThousandsInput(event.target.value));
                           setShowResults(false);
                         }}
                         placeholder="Ej: 3.500.000"
