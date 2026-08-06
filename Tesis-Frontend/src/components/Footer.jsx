@@ -3,7 +3,7 @@ const Footer = () => {
     <footer className="app-footer" role="contentinfo">
       <div className="app-footer-inner">
         <p className="app-footer-text">
-          Pedro Martinez - Proyecto de Tesis de Grado
+          Pedro Martinez - Trabajo Final de Grado
           <br />
           Encarnación - Paraguay - 2026
         </p>
