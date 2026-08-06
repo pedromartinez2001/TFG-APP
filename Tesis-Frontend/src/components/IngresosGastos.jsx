@@ -178,9 +178,11 @@ const IngresosGastos = (props) => {
           )}
           {sortedViews.map((view) => (
             <tr key={view._id}>
-              <td data-label="Concepto">{view.description || getCategoryLabel(view.category)}</td>
+              <td className="record-cell record-cell--concept" data-label="Concepto">
+                {view.description || getCategoryLabel(view.category)}
+              </td>
               {props.showCategory && (
-                <td data-label="Tipo">
+                <td className="record-cell record-cell--type" data-label="Tipo">
                   <span
                     className={`expense-type-badge ${getCategoryColorClass(view.category)}`}
                   >
@@ -188,11 +190,13 @@ const IngresosGastos = (props) => {
                   </span>
                 </td>
               )}
-              <td data-label="Monto">{`Gs. ${view.amount.toLocaleString("es-PY", {
+              <td className="record-cell record-cell--amount" data-label="Monto">{`Gs. ${view.amount.toLocaleString("es-PY", {
                 minimumFractionDigits: 0,
               })}`}</td>
-              <td data-label="Fecha">{dayjs(view.date).format("DD/MM/YYYY")}</td>
-              <td data-label="Acciones">
+              <td className="record-cell record-cell--date" data-label="Fecha">
+                {dayjs(view.date).format("DD/MM/YYYY")}
+              </td>
+              <td className="record-cell record-cell--actions" data-label="Acciones">
                 <div className="records-actions">
                   <Button
                     size="sm"

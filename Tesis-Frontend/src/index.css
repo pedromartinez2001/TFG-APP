@@ -1591,11 +1591,26 @@ body {
   }
 
   .movements-page .records-table-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.65rem;
     padding-inline: 0.15rem;
   }
 
   .movements-page .records-table-heading h1 {
+    margin: 0;
     font-size: 1.35rem;
+  }
+
+  .movements-page .records-sort-select {
+    width: 174px;
+    min-width: 0;
+    min-height: 38px;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    padding-left: 0.65rem;
+    font-size: 0.75rem;
   }
 
   .movements-page .records-table.table-mobile-stack tbody {
@@ -1604,8 +1619,11 @@ body {
   }
 
   .movements-page .records-table.table-mobile-stack tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.7rem 1rem;
     margin: 0;
-    padding: 0.35rem 0.8rem;
+    padding: 0.9rem;
     background: #fff;
     border: 1px solid #dbe5f1 !important;
     border-radius: 14px;
@@ -1613,19 +1631,64 @@ body {
   }
 
   .movements-page .records-table.table-mobile-stack td {
-    display: grid;
-    grid-template-columns: minmax(88px, 38%) minmax(0, 62%);
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.62rem 0 !important;
-    text-align: right !important;
-    border-bottom: 1px solid #edf2f7 !important;
+    display: block;
+    min-width: 0;
+    padding: 0 !important;
+    text-align: left !important;
+    border: 0 !important;
   }
 
   .movements-page .records-table.table-mobile-stack td::before {
-    margin: 0;
+    margin: 0 0 0.18rem;
     color: #64748b;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
     text-align: left;
+    text-transform: uppercase;
+  }
+
+  .movements-page .record-cell--concept {
+    color: #0f2747;
+    font-size: 0.98rem;
+    font-weight: 750;
+  }
+
+  .movements-page .record-cell--concept::before,
+  .movements-page .record-cell--amount::before {
+    display: none !important;
+  }
+
+  .movements-page .record-cell--amount {
+    color: #0f2747;
+    font-size: 1rem;
+    font-weight: 800;
+    text-align: right !important;
+    white-space: nowrap;
+  }
+
+  .movements-page .record-cell--type,
+  .movements-page .record-cell--date {
+    padding-top: 0.55rem !important;
+    border-top: 1px solid #edf2f7 !important;
+  }
+
+  .movements-page .record-cell--date {
+    color: #475569;
+    text-align: right !important;
+  }
+
+  .movements-page .record-cell--date::before {
+    text-align: right;
+  }
+
+  .movements-page .record-cell--actions {
+    grid-column: 1 / -1;
+    padding-top: 0.65rem !important;
+    border-top: 1px solid #edf2f7 !important;
+  }
+
+  .movements-page .record-cell--actions::before {
+    display: none !important;
   }
 
   .movements-page .records-actions {
@@ -1633,8 +1696,10 @@ body {
   }
 
   .movements-page .records-actions .btn {
-    min-width: 108px;
-    min-height: 38px;
+    min-width: 0;
+    min-height: 34px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.76rem;
   }
 
   .movements-page .expense-type-badge {
@@ -1642,6 +1707,7 @@ body {
   }
 
   .movements-page .records-total-row td {
+    grid-column: 1 / -1;
     display: block;
     padding: 0.8rem !important;
     text-align: left !important;
@@ -1653,6 +1719,7 @@ body {
   }
 
   .movements-page .records-empty-row td {
+    grid-column: 1 / -1;
     display: block;
     text-align: center !important;
     border: 0 !important;
