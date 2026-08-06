@@ -11,11 +11,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BarChart3, CheckCircle2, ShieldCheck } from "lucide-react";
 import viruMark from "../images/viru-mark.svg";
+import useAuth from "../hooks/useAuth";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const googleButtonRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const { user: authenticatedUser, isChecking, establishSession } = useAuth();
 
   const handleGoogleResponse = useCallback(
     async (response) => {
@@ -24,7 +26,7 @@ const LoginForm = () => {
           credential: response.credential,
         });
         if (user?.data) {
-          localStorage.setItem("user", JSON.stringify(user.data));
+          establishSession(user.data);
           navigate("/ingresos-gastos");
         }
       } catch (error) {
@@ -34,7 +36,7 @@ const LoginForm = () => {
         );
       }
     },
-    [navigate],
+    [establishSession, navigate],
   );
 
   const renderGoogleButton = useCallback(() => {
@@ -74,8 +76,8 @@ const LoginForm = () => {
   }, [handleGoogleResponse]);
 
   useEffect(() => {
-    if (localStorage.getItem("user")) navigate("/ingresos-gastos");
-  }, [navigate]);
+    if (!isChecking && authenticatedUser) navigate("/ingresos-gastos");
+  }, [authenticatedUser, isChecking, navigate]);
 
   useEffect(() => {
     renderGoogleButton();
@@ -92,7 +94,7 @@ const LoginForm = () => {
       setErrorMessage("");
       const user = await userService.loginUser(data);
       if (user?.data) {
-        localStorage.setItem("user", JSON.stringify(user.data));
+        establishSession(user.data);
         navigate("/ingresos-gastos");
       }
     } catch (error) {

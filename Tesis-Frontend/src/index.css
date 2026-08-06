@@ -691,6 +691,20 @@ a:hover {
   margin-bottom: 0;
 }
 
+.navbar-session-checking {
+  margin-left: auto;
+  color: var(--subtext) !important;
+  font-size: 0.82rem;
+}
+
+.session-checking {
+  display: grid;
+  min-height: 45vh;
+  place-items: center;
+  color: var(--subtext);
+  font-weight: 600;
+}
+
 .login-card .card-body {
   padding: 0;
   border: 0;

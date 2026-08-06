@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import { Container } from "react-bootstrap";
 import Footer from "./components/Footer";
+import AuthProvider from "./context/AuthProvider";
 
 // Lazy load pages
 const LoginForm = lazy(() => import("./pages/LoginForm"));
@@ -28,10 +29,11 @@ const App = () => {
   return (
     <Container fluid className="app-shell">
       <Router>
-        <Navigation />
-        <Container fluid className="app-main">
-          <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
+        <AuthProvider>
+          <Navigation />
+          <Container fluid className="app-main">
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/login" element={<LoginForm />} />
@@ -48,9 +50,10 @@ const App = () => {
                 <Route path="/avisos" element={<PaginaAvisos />} />
                 <Route path="/metas-ahorro" element={<PaginaMetasAhorro />} />
               </Route>
-            </Routes>
-          </Suspense>
-        </Container>
+              </Routes>
+            </Suspense>
+          </Container>
+        </AuthProvider>
       </Router>
       <Footer />
     </Container>

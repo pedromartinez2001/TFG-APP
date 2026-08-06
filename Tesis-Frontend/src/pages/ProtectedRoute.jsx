@@ -1,37 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
-import userService from "../services/userService";
+import useAuth from "../hooks/useAuth";
 
 const ProtectedRoute = () => {
-  const [isChecking, setIsChecking] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, isChecking } = useAuth();
 
-  useEffect(() => {
-    const verifySession = async () => {
-      const user = localStorage.getItem("user");
-      if (!user) {
-        setIsAuthenticated(false);
-        setIsChecking(false);
-        return;
-      }
+  if (isChecking) {
+    return <div className="session-checking">Verificando sesión...</div>;
+  }
 
-      try {
-        await userService.profileUser();
-        setIsAuthenticated(true);
-      } catch {
-        localStorage.removeItem("user");
-        setIsAuthenticated(false);
-      } finally {
-        setIsChecking(false);
-      }
-    };
-
-    verifySession();
-  }, []);
-
-  if (isChecking) return null;
-
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 

@@ -1,34 +1,19 @@
-import { useEffect, useState, useCallback } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { useNavigate, Link, NavLink } from "react-router-dom";
-import userService from "../services/userService";
 import viruMark from "../images/viru-mark.svg";
+import useAuth from "../hooks/useAuth";
 
 const Navigation = () => {
-  const [newUser, setNewUser] = useState(
-    JSON.parse(localStorage.getItem("user")),
-  );
-
   const navigate = useNavigate();
+  const { user, isChecking, logout } = useAuth();
 
   // Función para cerrar sesión
-  const closeSesion = useCallback(async () => {
-    try {
-      await userService.logoutUser();
-    } catch {
-      // Even if logout request fails, local cleanup should continue.
-    }
-    localStorage.removeItem("user");
-    setNewUser(null);
+  const closeSesion = async () => {
+    await logout();
     navigate("/login");
-  }, [navigate]);
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    setNewUser(user);
-  }, [closeSesion]);
+  };
 
   return (
     <Navbar
@@ -47,9 +32,13 @@ const Navigation = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse
         id="responsive-navbar-nav"
-        className={!newUser ? "navbar-collapse-guest" : undefined}
+        className={!user && !isChecking ? "navbar-collapse-guest" : undefined}
       >
-        {!newUser ? (
+        {isChecking ? (
+          <Navbar.Text className="navbar-session-checking">
+            Verificando sesión...
+          </Navbar.Text>
+        ) : !user ? (
           <Nav className="align-items-start align-items-md-center navbar-links navbar-links-guest">
               <Nav.Link as={NavLink} to="/" className="nav-link-modern">
                 Inicio
@@ -126,7 +115,7 @@ const Navigation = () => {
             >
               <Navbar.Text className="navbar-user-text">
                 <span className="navbar-user-greeting">Hola, </span>
-                <strong className="navbar-username">{newUser?.username}</strong>
+                <strong className="navbar-username">{user?.username}</strong>
               </Navbar.Text>
               <Button
                 variant="danger"
