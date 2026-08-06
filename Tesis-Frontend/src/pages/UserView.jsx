@@ -65,12 +65,14 @@ const UserView = () => {
   }, [calcularAhorroMes]);
 
   return (
-    <Container style={{ padding: " 0.1rem" }}>
-      <h1 style={{ display: "flex", justifyContent: "center" }}>
-        Listado de ingresos y gastos
-      </h1>
-      <Row style={{ display: "flex", justifyContent: "center" }}>
-        <Col>
+    <Container className="page-container movements-page">
+      <header className="page-header">
+        <span className="page-eyebrow">Tu mes en números</span>
+        <h1>Ingresos y gastos</h1>
+        <p>Registra tus movimientos y entiende cómo se distribuye tu dinero.</p>
+      </header>
+      <Row className="justify-content-center mb-4">
+        <Col xs="auto" className="month-picker-panel">
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
             <DatePicker
               label="Elige un mes"
@@ -83,8 +85,8 @@ const UserView = () => {
         </Col>
       </Row>
       <Container>
-        <Row style={{ justifyContent: "space-between", display: "flex" }}>
-          <Col>
+        <Row className="g-4">
+          <Col xs={12} xl={6}>
             <IngresosGastos
               title={"Ingresos"}
               service={incomeService}
@@ -94,7 +96,7 @@ const UserView = () => {
               extraInfoColor="#16A34A"
             />
           </Col>
-          <Col>
+          <Col xs={12} xl={6}>
             <IngresosGastos
               title={"Gastos"}
               service={expenseService}

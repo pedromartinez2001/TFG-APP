@@ -156,12 +156,15 @@ const PaginaMetasAhorro = () => {
   );
 
   return (
-    <Container style={{ minHeight: "80vh", padding: "20px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
-        Metas de ahorro
-      </h1>
+    <Container className="page-container">
+      <header className="page-header">
+        <span className="page-eyebrow">Ahorra con un propósito</span>
+        <h1>Metas de ahorro</h1>
+        <p>Define objetivos, mide tu progreso y mantén un ritmo mensual alcanzable.</p>
+      </header>
 
-      <div style={{ marginBottom: "1rem" }}>
+      <section className="content-panel">
+      <div className="page-actions">
         <Button variant="primary" onClick={() => setShowCreate(true)}>
           Crear meta de ahorro
         </Button>
@@ -242,6 +245,7 @@ const PaginaMetasAhorro = () => {
           ))}
         </tbody>
       </Table>
+      </section>
 
       <Modal show={showCreate} onHide={() => setShowCreate(false)}>
         <Modal.Header closeButton>

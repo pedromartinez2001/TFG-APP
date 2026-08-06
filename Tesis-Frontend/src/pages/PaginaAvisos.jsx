@@ -3,11 +3,13 @@ import RegistrosPagoMensualidades from "../components/RegistrosPagoMensualidades
 
 const PaginaAvisos = () => {
   return (
-    <Container style={{ minHeight: "80vh", padding: "20px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
-        Registros de Pago de Mensualidades
-      </h1>
-      <RegistrosPagoMensualidades />
+    <Container className="page-container">
+      <header className="page-header">
+        <span className="page-eyebrow">Mantén tus pagos al día</span>
+        <h1>Registro de mensualidades</h1>
+        <p>Organiza cuotas, vencimientos y pagos desde un solo lugar.</p>
+      </header>
+      <section className="content-panel"><RegistrosPagoMensualidades /></section>
     </Container>
   );
 };

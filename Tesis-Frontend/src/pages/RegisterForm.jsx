@@ -4,9 +4,10 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
+import viruMark from "../images/viru-mark.svg";
 
 const RegisterForm = () => {
   const {
@@ -29,9 +30,18 @@ const RegisterForm = () => {
   };
 
   return (
-    <Container className="d-flex align-items-center justify-content-center">
-      <Card style={{ width: "100%", maxWidth: "400px" }} className="p-4">
-        <Card.Title className="text-center">Registro</Card.Title>
+    <Container className="register-page">
+      <Card className="register-card">
+        <Card.Body>
+        <Link to="/" className="register-brand">
+          <img src={viruMark} alt="" />
+          <span><strong>VIRU</strong><small>Educación financiera</small></span>
+        </Link>
+        <div className="register-heading">
+          <span className="page-eyebrow">Comienza hoy</span>
+          <Card.Title>Crear una cuenta</Card.Title>
+          <p>Registra tus movimientos y convierte tu presupuesto en un hábito.</p>
+        </div>
         {errorMessage && (
           <Alert
             variant="danger"
@@ -51,7 +61,7 @@ const RegisterForm = () => {
               type="text"
               placeholder="Nombre de Usuario"
             />
-            <p className="text-danger">{errors.username?.message}</p>
+            <Form.Text className="text-danger">{errors.username?.message}</Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -67,7 +77,7 @@ const RegisterForm = () => {
               type="email"
               placeholder="Correo electrónico"
             />
-            <p className="text-danger">{errors.email?.message}</p>
+            <Form.Text className="text-danger">{errors.email?.message}</Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -83,13 +93,18 @@ const RegisterForm = () => {
               type="password"
               placeholder="Contraseña"
             />
-            <p className="text-danger">{errors.password?.message}</p>
+            <Form.Text className="text-danger">{errors.password?.message}</Form.Text>
           </Form.Group>
 
           <Button variant="primary" type="submit" className="w-100">
             Registrarse
           </Button>
+          <div className="register-login-link">
+            <span>¿Ya tienes una cuenta?</span>
+            <Link to="/login">Inicia sesión</Link>
+          </div>
         </Form>
+        </Card.Body>
       </Card>
     </Container>
   );

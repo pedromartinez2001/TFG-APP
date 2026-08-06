@@ -29,6 +29,14 @@ const TIPOS_POR_SECCION = {
   ],
 };
 
+const formatInputAmount = (value) => {
+  const digits = String(value).replace(/\D/g, "");
+  return digits ? Number(digits).toLocaleString("es-PY") : "";
+};
+
+const parseInputAmount = (value) =>
+  Number(String(value).replace(/\./g, "")) || 0;
+
 const CalculadoraIntereses = () => {
   const [seccion, setSeccion] = useState("prestamo");
   const [capital, setCapital] = useState("");
@@ -49,10 +57,10 @@ const CalculadoraIntereses = () => {
   };
 
   const calcular = () => {
-    const cap = parseFloat(capital);
-    const tas = parseFloat(tasa) / 100 / 12; // tasa mensual
+    const cap = parseInputAmount(capital);
+    const tas = parseFloat(String(tasa).replace(",", ".")) / 100 / 12;
     const tiem = parseInt(tiempo);
-    const aporte = parseFloat(aporteMensual) || 0;
+    const aporte = parseInputAmount(aporteMensual);
 
     if (
       isNaN(cap) ||
@@ -115,7 +123,7 @@ const CalculadoraIntereses = () => {
 
     if (tipo === "frances") {
       // Sistema Francés: Amortización con cuotas constantes
-      const tasaMensual = parseFloat(tasa) / 100 / 12;
+      const tasaMensual = parseFloat(String(tasa).replace(",", ".")) / 100 / 12;
       const cuota =
         (cap * tasaMensual * Math.pow(1 + tasaMensual, tiem)) /
         (Math.pow(1 + tasaMensual, tiem) - 1);
@@ -181,32 +189,16 @@ const CalculadoraIntereses = () => {
   };
 
   return (
-    <Box
-      sx={{
-        maxWidth: 700,
-        mx: "auto",
-        mt: 4,
-        mb: 3,
-        p: { xs: 2, sm: 3 },
-        backgroundColor: "#fff",
-        border: "1px solid #E2E8F0",
-        borderRadius: 3,
-        boxShadow: "0 8px 24px rgba(15, 23, 42, 0.06)",
-      }}
-    >
-      <Typography variant="h4" gutterBottom>
-        Calculadora de Intereses
-      </Typography>
+    <Box className="calculator-shell">
+      <div className="calculator-form-heading">
+        <span className="page-eyebrow">Configura tu escenario</span>
+        <Typography variant="h4">¿Qué quieres calcular?</Typography>
+        <p>Completa los datos y obtén una proyección detallada en guaraníes.</p>
+      </div>
 
       {/* Selector de sección */}
       <Box sx={{ mb: 3 }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-            gap: "0.5rem",
-          }}
-        >
+        <div className="calculator-options">
           {SECCIONES.map((s) => {
             const isSelected = seccion === s.value;
             return (
@@ -214,18 +206,7 @@ const CalculadoraIntereses = () => {
                 key={s.value}
                 type="button"
                 onClick={() => cambiarSeccion(s.value)}
-                style={{
-                  border: isSelected
-                    ? "2px solid var(--primary, #2563eb)"
-                    : "1px solid #D0D7DE",
-                  borderRadius: "8px",
-                  background: isSelected ? "rgba(37, 99, 235, 0.1)" : "#fff",
-                  color: "var(--text, #1e293b)",
-                  padding: "0.85rem 0.5rem",
-                  fontWeight: 700,
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                }}
+                className={`calculator-option ${isSelected ? "active" : ""}`}
               >
                 {s.label}
               </button>
@@ -238,19 +219,24 @@ const CalculadoraIntereses = () => {
         label={
           seccion === "ahorro" ? "Monto Inicial (Gs.)" : "Capital Inicial (Gs.)"
         }
-        type="number"
+        type="text"
+        inputMode="numeric"
         value={capital}
-        onChange={(e) => setCapital(e.target.value)}
+        onChange={(e) => setCapital(formatInputAmount(e.target.value))}
+        placeholder="Ej: 10.000.000"
+        className="calculator-field"
         fullWidth
         margin="normal"
       />
       <TextField
         label="Tasa de Interés Anual (%)"
         type="number"
+        inputProps={{ step: "0.01", min: "0" }}
         value={tasa}
         onChange={(e) => setTasa(e.target.value)}
         fullWidth
         margin="normal"
+        className="calculator-field"
       />
       <TextField
         label="Tiempo (meses)"
@@ -259,18 +245,13 @@ const CalculadoraIntereses = () => {
         onChange={(e) => setTiempo(e.target.value)}
         fullWidth
         margin="normal"
+        className="calculator-field"
       />
       <Box sx={{ mt: 1, mb: 2 }}>
         <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
           Tipo de Cálculo
         </Typography>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-            gap: "0.5rem",
-          }}
-        >
+        <div className="calculator-options calculator-options--secondary">
           {TIPOS_POR_SECCION[seccion].map((opcion) => {
             const isSelected = tipo === opcion.value;
             return (
@@ -278,17 +259,7 @@ const CalculadoraIntereses = () => {
                 key={opcion.value}
                 type="button"
                 onClick={() => setTipo(opcion.value)}
-                style={{
-                  border: isSelected
-                    ? "2px solid var(--primary, #2563eb)"
-                    : "1px solid #D0D7DE",
-                  borderRadius: "8px",
-                  background: isSelected ? "rgba(37, 99, 235, 0.1)" : "#fff",
-                  color: "var(--text, #1e293b)",
-                  padding: "0.75rem 0.5rem",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
+                className={`calculator-option ${isSelected ? "active" : ""}`}
               >
                 {opcion.label}
               </button>
@@ -299,23 +270,26 @@ const CalculadoraIntereses = () => {
       {tipo === "ahorro_compuesto" && (
         <TextField
           label="Agregar mensualmente más dinero (Gs.)"
-          type="number"
+          type="text"
+          inputMode="numeric"
           value={aporteMensual}
-          onChange={(e) => setAporteMensual(e.target.value)}
+          onChange={(e) => setAporteMensual(formatInputAmount(e.target.value))}
+          placeholder="Ej: 500.000"
+          className="calculator-field"
           fullWidth
           margin="normal"
         />
       )}
-      <Button variant="contained" onClick={calcular} fullWidth sx={{ mt: 2 }}>
+      <Button className="calculator-submit" variant="contained" onClick={calcular} fullWidth>
         Calcular
       </Button>
 
       {resultados && (
-        <Box sx={{ mt: 4 }}>
+        <Box className="calculator-results">
           {resultados.tipo === "frances" && (
             <>
               <Typography variant="h6">Resultados - Sistema Francés</Typography>
-              <TableContainer component={Paper} sx={{ mt: 2 }}>
+              <TableContainer component={Paper} className="calculator-table">
                 <Table className="table-mobile-stack">
                   <TableHead>
                     <TableRow>
@@ -369,7 +343,7 @@ const CalculadoraIntereses = () => {
           {resultados.tipo === "aleman" && (
             <>
               <Typography variant="h6">Resultados - Sistema Alemán</Typography>
-              <TableContainer component={Paper} sx={{ mt: 2 }}>
+              <TableContainer component={Paper} className="calculator-table">
                 <Table className="table-mobile-stack">
                   <TableHead>
                     <TableRow>
@@ -421,7 +395,7 @@ const CalculadoraIntereses = () => {
             </>
           )}
           {resultados.tipo === "cda_normal" && (
-            <>
+            <div className="calculator-summary">
               <Typography variant="h6">Resultados - CDA Normal</Typography>
               <Typography sx={{ mt: 1 }}>
                 Interés generado:{" "}
@@ -431,10 +405,10 @@ const CalculadoraIntereses = () => {
                 Monto final:{" "}
                 <strong>{formatearGs(resultados.montoTotal)}</strong>
               </Typography>
-            </>
+            </div>
           )}
           {resultados.tipo === "ahorro_compuesto" && (
-            <>
+            <div className="calculator-summary">
               <Typography variant="h6">
                 Resultados - Ahorro Compuesto
               </Typography>
@@ -450,7 +424,7 @@ const CalculadoraIntereses = () => {
                 Monto final acumulado:{" "}
                 <strong>{formatearGs(resultados.montoTotal)}</strong>
               </Typography>
-              <TableContainer component={Paper} sx={{ mt: 2 }}>
+              <TableContainer component={Paper} className="calculator-table">
                 <Table className="table-mobile-stack">
                   <TableHead>
                     <TableRow>
@@ -482,7 +456,7 @@ const CalculadoraIntereses = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </>
+            </div>
           )}
         </Box>
       )}

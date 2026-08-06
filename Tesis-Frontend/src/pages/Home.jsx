@@ -78,7 +78,7 @@ const Home = () => {
               <Image src={personaIcono} fluid />
             </div>
           </Col>
-          <Col md="6">
+          <Col md="6" className="home-hero-copy">
             <h1>Educación financiera para decidir mejor</h1>
             <p className="home-lead">
               Esta aplicación te ayuda a entender tus hábitos de dinero con

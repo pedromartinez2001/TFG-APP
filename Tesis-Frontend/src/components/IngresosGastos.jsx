@@ -138,7 +138,7 @@ const IngresosGastos = (props) => {
   );
 
   return (
-    <div>
+    <section className="records-panel">
       <div className="records-table-heading">
         <h1>{props.title}</h1>
         {props.showCategory && (
@@ -235,7 +235,7 @@ const IngresosGastos = (props) => {
           categoryLabel={props.categoryLabel}
         />
       </div>
-    </div>
+    </section>
   );
 };
 

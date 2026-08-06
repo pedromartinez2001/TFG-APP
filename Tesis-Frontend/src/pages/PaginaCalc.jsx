@@ -3,11 +3,13 @@ import CalculadoraIntereses from "../components/Calculadora_Intereses";
 
 const PaginaCalc = () => {
   return (
-    <Container style={{ minHeight: "80vh", padding: "20px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
-        Calculadora de Intereses
-      </h1>
-      <CalculadoraIntereses />
+    <Container className="page-container">
+      <header className="page-header">
+        <span className="page-eyebrow">Simula antes de decidir</span>
+        <h1>Calculadora de intereses</h1>
+        <p>Compara préstamos y alternativas de ahorro con resultados claros.</p>
+      </header>
+      <section className="content-panel"><CalculadoraIntereses /></section>
     </Container>
   );
 };
