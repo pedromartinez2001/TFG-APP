@@ -9,6 +9,15 @@ import grafico from "../images/grafico.png";
 
 const herramientas = [
   {
+    id: "presupuesto",
+    title: "Presupuesto 50/30/20",
+    description:
+      "Calcula una distribución mensual para tus necesidades, deseos y ahorro, de forma individual o en pareja.",
+    to: "/presupuesto",
+    badge: "Planificación",
+    requiresLogin: false,
+  },
+  {
     id: "ingresos-gastos",
     title: "Registro de ingresos y gastos",
     description:

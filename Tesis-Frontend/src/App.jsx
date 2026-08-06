@@ -13,6 +13,7 @@ const Home = lazy(() => import("./pages/Home"));
 const PaginaCalc = lazy(() => import("./pages/PaginaCalc"));
 const PaginaAvisos = lazy(() => import("./pages/PaginaAvisos"));
 const PaginaMetasAhorro = lazy(() => import("./pages/PaginaMetasAhorro"));
+const BudgetPage = lazy(() => import("./pages/BudgetPage"));
 const LearnPage = lazy(() => import("./pages/LearnPage"));
 const TopicDetail = lazy(() => import("./components/learn/TopicDetail"));
 const LessonDetail = lazy(() => import("./components/learn/LessonDetail"));
@@ -35,6 +36,7 @@ const App = () => {
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/calculadora" element={<PaginaCalc />} />
+              <Route path="/presupuesto" element={<BudgetPage />} />
               <Route path="/aprender" element={<LearnPage />} />
               <Route path="/aprender/:topicId" element={<TopicDetail />} />
               <Route

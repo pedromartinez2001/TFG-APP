@@ -65,6 +65,9 @@ const Navigation = () => {
               <Nav.Link as={NavLink} to="/aprender" className="nav-link-modern">
                 Aprender
               </Nav.Link>
+              <Nav.Link as={NavLink} to="/presupuesto" className="nav-link-modern">
+                Presupuesto
+              </Nav.Link>
               <Nav.Link
                 as={NavLink}
                 to="/login"
@@ -97,6 +100,9 @@ const Navigation = () => {
               </Nav.Link>
               <Nav.Link as={NavLink} to="/aprender" className="nav-link-modern">
                 Aprender
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/presupuesto" className="nav-link-modern">
+                Presupuesto
               </Nav.Link>
               <Nav.Link
                 as={NavLink}
