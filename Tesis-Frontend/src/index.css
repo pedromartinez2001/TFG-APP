@@ -777,11 +777,15 @@ a:hover {
 }
 
 @media (max-width: 576px) {
-  .login-page { padding: 0.25rem; }
+  .login-page { padding: 0.75rem 0.5rem; }
   .login-shell { border: 0; border-radius: 18px; }
-  .login-form-column { min-height: auto; padding: 2rem 1.15rem; }
+  .login-form-column { min-height: auto; padding: 2rem 1.5rem; }
   .login-form-heading h2 { font-size: 1.55rem; }
   .login-register-link { align-items: center; flex-direction: column; }
+}
+
+@media (max-width: 360px) {
+  .login-form-column { padding-inline: 1.25rem; }
 }
 
 /* Presupuesto 50/30/20 */
