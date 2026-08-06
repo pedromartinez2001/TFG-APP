@@ -1634,8 +1634,18 @@ body {
     display: block;
     min-width: 0;
     padding: 0 !important;
+    background: transparent !important;
     text-align: left !important;
     border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .movements-page .records-table.table-striped > tbody > tr:nth-of-type(odd) > *,
+  .movements-page .records-table.table-hover > tbody > tr:hover > * {
+    --bs-table-bg-type: transparent;
+    --bs-table-bg-state: transparent;
+    background-color: transparent !important;
+    box-shadow: none !important;
   }
 
   .movements-page .records-table.table-mobile-stack td::before {
